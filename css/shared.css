@@ -624,3 +624,102 @@ footer > #social-links > a:hover {
     margin-bottom: 20px;
   }
 }
+
+/* Meme / portrait video block */
+.meme-video-block {
+  width: 220px; /* tweak width as needed */
+  max-width: 30vw;
+  min-width: 160px;
+  aspect-ratio: 9 / 16; /* portrait aspect */
+  margin: 24px auto;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  background: #000;
+  pointer-events: auto;
+}
+
+/* Video element fills the container */
+.meme-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ensures portrait fits container nicely */
+  display: block;
+  background: #000;
+  position: relative;
+  z-index: 2000;
+  pointer-events: auto;
+  background: #000;
+  z-index: 2001 !important;
+  background: #000 !important;
+  outline: 2px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Small badge in top-left */
+.meme-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #111;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-weight: 600;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Controls (play/pause and mute) */
+.meme-control {
+  position: absolute;
+  bottom: 10px;
+  transform: translateY(0);
+  background: rgba(0, 0, 0, 0.55);
+  border: none;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
+  cursor: pointer;
+  transition: background 150ms ease, transform 150ms ease;
+  outline: none;
+  z-index: 2002 !important;
+}
+
+/* Play/pause left, mute right */
+.meme-control.play-toggle {
+  left: 12px;
+}
+.meme-control.mute-toggle {
+  right: 12px;
+}
+
+.meme-control:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: translateY(-3px);
+}
+
+.meme-control i {
+  font-size: 16px;
+  pointer-events: none;
+}
+
+/* Small responsive tweaks */
+@media (max-width: 480px) {
+  .meme-video-block {
+    width: 36vw;
+  }
+  .meme-control {
+    width: 36px;
+    height: 36px;
+  }
+  .meme-control i {
+    font-size: 14px;
+  }
+}

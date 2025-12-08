@@ -176,3 +176,115 @@ $(function() {
 
 // set the current year automatically
 document.getElementById("year").textContent = new Date().getFullYear();
+
+
+// Meme video block behavior — reusable for multiple blocks
+(function () {
+  // Helper to update control icons
+  function updateIcons(container, video) {
+    const playBtn = container.querySelector('.play-toggle i');
+    const muteBtn = container.querySelector('.mute-toggle i');
+
+    if (!video) return;
+    playBtn.className = video.paused ? 'fas fa-play' : 'fas fa-pause';
+    muteBtn.className = video.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
+  }
+
+  // Pause other meme videos when one plays
+  function pauseOtherVideos(current) {
+    document.querySelectorAll('.meme-video').forEach(v => {
+      if (v !== current && !v.paused) {
+        v.pause();
+      }
+    });
+  }
+
+  // Initialize every block on the page
+  const blocks = document.querySelectorAll('.meme-video-block');
+
+  if (!blocks.length) return;
+
+  // IntersectionObserver to auto-play when visible
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const block = entry.target;
+      const video = block.querySelector('video.meme-video');
+
+      if (!video) return;
+
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+        // Autoplay muted & loop when visible
+        if (video.paused) {
+          pauseOtherVideos(video);
+          video.play().catch(() => {}); // catch in case autoplay blocked
+        }
+      } else {
+        // Pause when not sufficiently visible
+        if (!video.paused) {
+          video.pause();
+        }
+      }
+      updateIcons(block, video);
+    });
+  }, { threshold: [0.5] });
+
+  blocks.forEach(block => {
+    const video = block.querySelector('video.meme-video');
+    const playBtn = block.querySelector('.play-toggle');
+    const muteBtn = block.querySelector('.mute-toggle');
+
+    if (!video) return;
+
+    // Observe visibility
+    observer.observe(block);
+
+    // Update icons on play/pause and volume change
+    video.addEventListener('play', () => {
+      pauseOtherVideos(video);
+      updateIcons(block, video);
+    });
+    video.addEventListener('pause', () => updateIcons(block, video));
+    video.addEventListener('volumechange', () => updateIcons(block, video));
+
+    // Play/pause toggle on button click
+    playBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (video.paused) {
+        pauseOtherVideos(video);
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+      updateIcons(block, video);
+    });
+
+    // Mute/unmute toggle. Unmuting must be user-initiated (button click) to satisfy browsers
+    muteBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // If currently muted and paused, play then unmute for immediate audio
+      if (video.muted) {
+        // Ensure play before unmute for user experience
+        video.play().catch(() => {});
+        video.muted = false;
+      } else {
+        video.muted = true;
+      }
+      updateIcons(block, video);
+    });
+
+    // Also allow clicking the video area to toggle play/pause (but not to unmute)
+    video.addEventListener('click', () => {
+      if (video.paused) {
+        pauseOtherVideos(video);
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+      updateIcons(block, video);
+    });
+
+    // Initial icon state
+    updateIcons(block, video);
+  });
+
+})();

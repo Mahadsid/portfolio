@@ -333,6 +333,39 @@
         <div class="clear"></div>
       </div>
     </div>
+    <!-- BEGIN: Reusable portrait meme/video block -->
+    <div class="meme-video-block" role="region" aria-label="Fun meme video">
+      <video
+        class="meme-video"
+        src="images/Meme.mp4"
+        poster="images/meme-poster.jpg"
+        playsinline
+        muted
+        loop
+        preload="metadata"
+        crossorigin="anonymous"
+      ></video>
+
+      <button
+        class="meme-control play-toggle"
+        aria-label="Play or pause video"
+        title="Play / Pause"
+      >
+        <i class="fas fa-play"></i>
+      </button>
+
+      <button
+        class="meme-control mute-toggle"
+        aria-label="Toggle sound"
+        title="Mute / Unmute"
+      >
+        <i class="fas fa-volume-mute"></i>
+      </button>
+
+      <div class="meme-badge">Fun</div>
+    </div>
+    <!-- END: Reusable portrait meme/video block -->
+
     <div id="contact">
       <div class="item full left">
         <div class="title">

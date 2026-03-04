@@ -443,3 +443,31 @@ label > textarea:focus + span::after {
     }
   }
 }
+
+.banner-container {
+  position: fixed;
+  top: 20px;
+  left: 0; /* Ensures it stays centered relative to the whole screen */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 9999; /* Forces the banner to the very front layer */
+  pointer-events: none;
+}
+
+.banner {
+  pointer-events: auto;
+  background-color: #ffdab9; /* Peach color */
+  color: #5d4037;
+  padding: 10px 24px;
+  border-radius: 50px;
+  font-family: sans-serif;
+  font-weight: 500;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.banner a {
+  color: inherit;
+  text-decoration: underline;
+  font-weight: bold;
+}
